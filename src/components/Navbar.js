@@ -2,10 +2,12 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import "./Navbar.css";
-import NuvixLogo from "./logo1.png";
+import NuvixLogo from "./logo2-Photoroom.png";
+import QRLogo from "./logo3-1-Photoroom.png"; 
 
 const Navbar = () => {
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     if (window.stopScannerGlobal && typeof window.stopScannerGlobal === "function") {
       try {
@@ -14,13 +16,9 @@ const Navbar = () => {
         console.warn("Scanner ya estaba detenido:", err);
       }
     }
-
     alert("Sesión cerrada. Redirigiendo a la página de inicio.");
     navigate("/");
   };
-
-
-
 
   return (
     <motion.nav
@@ -37,29 +35,22 @@ const Navbar = () => {
         >
           <Link to="/" className="no-underline">
             <div className="logo-container">
+           
               <img src={NuvixLogo} alt="Nuvix Logo" className="logo-icon-img" />
-
             </div>
           </Link>
         </motion.div>
+
         <ul className="navbar-links">
           <li>
-            <Link to="/scanner" className="nav-link">
-              Escáner
-            </Link>
+            <Link to="/scanner" className="nav-link">Escáner</Link>
           </li>
           <li>
-            <Link to="/events" className="nav-link">
-              Eventos
-            </Link>
+            <Link to="/events" className="nav-link">Eventos</Link>
           </li>
           <li>
-            <Link to="/records" className="nav-link">
-              Registros
-            </Link>
+            <Link to="/records" className="nav-link">Registros</Link>
           </li>
-
-
           <li>
             <button onClick={handleLogout} className="nav-link logout-btn">
               Cerrar Sesión

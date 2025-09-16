@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Papa from "papaparse";
-import * as XLSX from "xlsx";  // 👈 Importamos la librería XLSX
+import * as XLSX from "xlsx";  
 import "../index.css";
 
 const Events = ({ eventos, onConfirmarRegistro }) => {
   const [registrarEventoVisible, setRegistrarEventoVisible] = useState(false);
   const [nuevoEvento, setNuevoEvento] = useState("");
-  const [dataFile, setDataFile] = useState(null); // ahora puede ser csv o xlsx
+  const [dataFile, setDataFile] = useState(null); // CSV o XLSX
+  const [pdfFile, setPdfFile] = useState(null);   // PDF del itinerario
   const [parsedData, setParsedData] = useState(null);
   const [filtroEvento, setFiltroEvento] = useState("");
 
@@ -38,7 +39,7 @@ const Events = ({ eventos, onConfirmarRegistro }) => {
     reader.readAsArrayBuffer(file);
   };
 
-  // 🔹 Detectar tipo de archivo y parsear
+  // 🔹 Detectar tipo de archivo de participantes
   const handleFileChange = (file) => {
     if (!file) return;
     setDataFile(file);
@@ -53,6 +54,16 @@ const Events = ({ eventos, onConfirmarRegistro }) => {
     }
   };
 
+  // 🔹 Manejar carga del PDF
+  const handlePdfChange = (file) => {
+    if (!file) return;
+    if (!file.name.endsWith(".pdf")) {
+      alert("Solo se permiten archivos en formato PDF");
+      return;
+    }
+    setPdfFile(file);
+  };
+
   const handleConfirm = () => {
     if (!nuevoEvento.trim()) {
       alert("Debes ingresar un nombre de evento.");
@@ -62,9 +73,16 @@ const Events = ({ eventos, onConfirmarRegistro }) => {
       alert("Debes cargar un archivo CSV o XLSX de participantes.");
       return;
     }
-    onConfirmarRegistro(nuevoEvento, parsedData, (nombre) => {
+    if (!pdfFile) {
+      alert("Debes cargar un PDF con el itinerario del evento.");
+      return;
+    }
+
+    // Pasamos también el PDF al registrar
+    onConfirmarRegistro(nuevoEvento, parsedData, pdfFile, (nombre) => {
       setNuevoEvento("");
       setDataFile(null);
+      setPdfFile(null);
       setParsedData(null);
       setRegistrarEventoVisible(false);
       alert(`Evento "${nombre}" registrado con éxito!`);
@@ -117,8 +135,10 @@ const Events = ({ eventos, onConfirmarRegistro }) => {
               onChange={(e) => setNuevoEvento(e.target.value)}
               className="input-field"
             />
+
+            {/* Subir participantes CSV/XLSX */}
             <label className="file-input-label">
-              Seleccionar archivo CSV o XLSX
+              Seleccionar archivo CSV o XLSX (participantes)
               <input
                 type="file"
                 accept=".csv, .xlsx"
@@ -127,6 +147,19 @@ const Events = ({ eventos, onConfirmarRegistro }) => {
               />
             </label>
             {dataFile && <p className="file-name">{dataFile.name}</p>}
+
+            {/* Subir PDF itinerario */}
+            <label className="file-input-label">
+              Seleccionar archivo PDF (itinerario)
+              <input
+                type="file"
+                accept=".pdf"
+                onChange={(e) => handlePdfChange(e.target.files[0])}
+                style={{ display: "none" }}
+              />
+            </label>
+            {pdfFile && <p className="file-name">{pdfFile.name}</p>}
+
             <button onClick={handleConfirm} className="btn">
               Confirmar registro
             </button>
@@ -167,6 +200,16 @@ const Events = ({ eventos, onConfirmarRegistro }) => {
                 >
                   Descargar CSV
                 </button>
+                {/* Mostrar link al PDF si existe */}
+                {ev.itinerario && (
+                  <a
+                    href={URL.createObjectURL(ev.itinerario)}
+                    download={`${ev.nombre}-itinerario.pdf`}
+                    className="btn download-btn"
+                  >
+                    Descargar PDF
+                  </a>
+                )}
               </motion.li>
             ))
           ) : (
@@ -179,3 +222,4 @@ const Events = ({ eventos, onConfirmarRegistro }) => {
 };
 
 export default Events;
+

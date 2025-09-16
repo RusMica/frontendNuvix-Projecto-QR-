@@ -1,8 +1,8 @@
 .navbar {
-  background: linear-gradient(90deg, #D9593D 0%, #F27D52 100%);
+  background: linear-gradient(90deg, #1A1F3B 0%, #00F5D4 100%);
   padding: 0 1.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  min-height: 80px; /* altura mínima pero flexible */
+  min-height: 80px;
   display: flex;
   align-items: center;
 }
@@ -11,7 +11,7 @@
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between; /* logo izq, links der */
+  justify-content: space-between;
   align-items: center;
   width: 100%;
 }
@@ -22,28 +22,29 @@
 }
 
 .logo-container {
-   display: flex;
-  align-items: center; 
-  gap: 10px;
-    transform: scale(1.4); /* lo agranda un 30% */
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  transform: scale(1.4);
   transform-origin: left center;
   height: 100%;
+}
+
+.logo-icon-img {
+  width: auto;
+  height: 5em;
+  object-fit: contain;
+   margin-left: -9px; 
   
 }
 
-/*  clase para la imagen */
-.logo-icon-img {
-  width: auto;
-  height: 6em;
-  object-fit: contain;
-}
 
 .logo-text-title {
-font-family: 'Montserrat', sans-serif;
-  font-size: 2rem; 
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
   font-weight: 800;
   letter-spacing: -1px;
-  color: #0d0d0d;
+  color: #F2E96B; /* amarillo pastel para resaltar */
   text-decoration: none;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease;
@@ -51,7 +52,7 @@ font-family: 'Montserrat', sans-serif;
 }
 
 .navbar-brand:hover .logo-text-title {
-  color: #f2f2f2;
+  color: #00F5D4; /* cian neón en hover */
 }
 
 .navbar-links {
@@ -64,9 +65,8 @@ font-family: 'Montserrat', sans-serif;
 }
 
 .nav-link {
-  color: white;
+  color: #ffffff; /* blanco para contraste */
   text-decoration: none;
-  /* Elimina el subrayado por defecto */
   font-weight: 600;
   font-size: 1.1rem;
   padding: 0.5rem 1rem;
@@ -78,14 +78,14 @@ font-family: 'Montserrat', sans-serif;
 }
 
 .nav-link:hover {
-  color: #0d0d0d;
-  background-color: rgba(255, 255, 255, 0.2);
+  color: #1A1F3B; /* azul oscuro */
+  background-color: rgba(123, 47, 247, 0.2); /* violeta translúcido */
   transform: translateY(-2px);
 }
 
 .logout-btn {
-  background-color: #400404;
-  color: #f2f2f2;
+  background-color: #7B2FF7; /* violeta neón */
+  color: #ffffff;
   padding: 0.75rem 1.5rem;
   border-radius: 2rem;
   transition: all 0.3s ease;
@@ -93,17 +93,17 @@ font-family: 'Montserrat', sans-serif;
 }
 
 .logout-btn:hover {
-  background-color: #730D0D;
+  background-color: #F2E96B; /* cian neón en hover */
+  color: #1A1F3B; /* contraste fuerte con el fondo */
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .no-underline {
   text-decoration: none;
-  /* Clase para quitar el subrayado de cualquier enlace */
 }
 
-/* Responsividad para móviles */
+/* Responsividad */
 @media (max-width: 768px) {
   .navbar-container {
     flex-direction: column;
