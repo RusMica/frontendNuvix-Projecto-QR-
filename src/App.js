@@ -8,6 +8,8 @@ import Home from "./pages/Home";
 import Scanner from "./pages/Scanner"; 
 import Events from "./pages/Events"; 
 import Records from "./pages/Records"; 
+import PaymentPage from "./pages/PaymentPage";
+import Footer from "./components/Footer";
 
 import "./index.css";
 import "./App.css";
@@ -15,7 +17,7 @@ import "./App.css";
 function App() {
   const [eventos, setEventos] = useState([]);
 
-  // Registrar un nuevo evento desde CSV
+  // ... (funciones handleConfirmarRegistro y handleScanAsistente) ...
   const handleConfirmarRegistro = (nuevoEvento, csvFile, onComplete) => {
     Papa.parse(csvFile, {
       header: true,
@@ -35,11 +37,9 @@ function App() {
     });
   };
 
-  // Registrar un asistente escaneado
   const handleScanAsistente = (nombreEvento, participante) => {
     setEventos(prev => prev.map(ev => {
       if(ev.nombre === nombreEvento){
-        // Evitar duplicados
         const existe = ev.asistentes.some(p => p.id === participante.id);
         if(!existe){
           return {...ev, asistentes: [...ev.asistentes, participante]};
@@ -48,7 +48,7 @@ function App() {
       return ev;
     }));
   };
-
+  
   return (
     <Router>
       <div className="App-container">
@@ -72,7 +72,12 @@ function App() {
             path="/records" 
             element={<Records eventos={eventos} />} 
           />
+          <Route 
+            path="/payment" 
+            element={<PaymentPage />} 
+          />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
